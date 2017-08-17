@@ -252,11 +252,7 @@ public class ISPiggyActivity extends AppCompatActivity {
             iRndChar = (Integer) myRandom(1, iDomOnly); // get random char int location from domain length
             sRndChar = strDomain.substring(iRndChar - 1, iRndChar - 1 + 1); // gets random char from domain
 
-            // remove char from domain and reassemble domain name
-            //FIX THIS PART OF THE CODE---------------------------------------------------------------------------
-            //tempdomainMinusRand = Microsoft.VisualBasic.Strings.Replace(strDomain, sRndChar, "",, 1) + sExtOnly;
-            //----------------------------------------------------------------------------------------------------
-            strDomain = (String) tempdomainMinusRand; // puts new domain in passed domain variable
+            strDomain = strDomain.replaceFirst(sRndChar, "") + sExtOnly; // removes random char
         }
         return strDomain;
     }
@@ -289,3 +285,6 @@ public class ISPiggyActivity extends AppCompatActivity {
 
 
 }
+
+
+
