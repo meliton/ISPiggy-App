@@ -173,11 +173,11 @@ public class ISPiggyActivity extends AppCompatActivity {
         while ((x < (Integer) myRandom(iMinDomain, iMaxDomain))) {
             if (((Integer) isOdd(x) == 1)) {
                 //  even number generates random vowel
-                sRandWeb = (sRandWeb + astrVowels[(Integer) myRandom(0, (astrVowels.length))]);
+                sRandWeb = (sRandWeb + astrVowels[(Integer) myRandom(0, (astrVowels.length-1))]);
             }
             else {
                 //  odd number generates random consonant
-                sRandWeb = (sRandWeb + astrConsonants[(Integer) myRandom(0, (astrConsonants.length))]);
+                sRandWeb = (sRandWeb + astrConsonants[(Integer) myRandom(0, (astrConsonants.length-1))]);
             }
 
             x = (x + 1);
