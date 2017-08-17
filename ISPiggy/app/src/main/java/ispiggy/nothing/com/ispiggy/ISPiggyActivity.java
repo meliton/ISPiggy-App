@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.SocketException;
-import java.text.MessageFormat;
-import java.util.Random;
 
 
 public class ISPiggyActivity extends AppCompatActivity {
@@ -51,10 +49,14 @@ public class ISPiggyActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView tv = (TextView) findViewById(R.id.lblName);
-                tv.setText("START was pressed");
-                EditText rv = (EditText) findViewById(R.id.txtDomain);
-                rv.setText("START");
+                 RandomName.callOnClick();  // get a new domain name
+                                            // getIP to see if it's valid
+
+                                            // if the domain is not valid, MinusRandom
+                                            // getIP to see if it's valid
+                                            // while not valid, MinusRandom
+                            // if it is valid, get new domain name
+
             }
         });
 
@@ -71,10 +73,6 @@ public class ISPiggyActivity extends AppCompatActivity {
         RandomName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TextView tv = (TextView) findViewById(R.id.lblName);
-                //tv.setText("RandomName was pressed");
-                // EditText rv = (EditText)findViewById(R.id.txtDomain);
-                // rv.setText("RandomName");
                 String strWeb;
                 strWeb = makeDomainName();
                 lblName.setText(sLblName + strWeb);
@@ -86,10 +84,6 @@ public class ISPiggyActivity extends AppCompatActivity {
         ToCom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // TextView tv = (TextView) findViewById(R.id.lblName);
-               // tv.setText("ToCom was pressed");
-               // EditText rv = (EditText) findViewById(R.id.txtDomain);
-               // rv.setText("ToCom");
                 String strDomain;
                 strDomain = String.valueOf(txtDomain.getText());
                 strDomain = String.valueOf(toDotCom(strDomain));
@@ -111,10 +105,6 @@ public class ISPiggyActivity extends AppCompatActivity {
         MinusRand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TextView tv = (TextView) findViewById(R.id.lblName);
-                //tv.setText("MinusRand was pressed");
-                //EditText rv = (EditText) findViewById(R.id.txtDomain);
-                //rv.setText("MinusRand");
                 String strDomain;
                 strDomain = String.valueOf(txtDomain.getText());
                 strDomain = String.valueOf(domainMinusRand(strDomain));
@@ -136,10 +126,6 @@ public class ISPiggyActivity extends AppCompatActivity {
         MinusOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TextView tv = (TextView) findViewById(R.id.lblName);
-                // tv.setText("MinusOne was pressed");
-                // EditText rv = (EditText) findViewById(R.id.txtDomain);
-                // rv.setText("MinusOne");
                 String strDomain;
                 strDomain = String.valueOf(txtDomain.getText());
                 strDomain = String.valueOf(domainMinusOne(strDomain));
@@ -285,6 +271,3 @@ public class ISPiggyActivity extends AppCompatActivity {
 
 
 }
-
-
-
