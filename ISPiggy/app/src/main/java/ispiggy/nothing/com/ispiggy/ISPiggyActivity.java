@@ -1,6 +1,7 @@
 package ispiggy.nothing.com.ispiggy;
 
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,9 +24,10 @@ public class ISPiggyActivity extends AppCompatActivity {
     Button GetIP;
     Button MinusRand;
     CheckBox ChkDebug;
-
     TextView lblName;
     EditText txtDomain;
+
+    public int counter;
 
     String sLblName = "Random Domain: "; // random domain label set
 
@@ -40,10 +42,13 @@ public class ISPiggyActivity extends AppCompatActivity {
         ToCom = (Button) findViewById(R.id.ToCom);
         GetIP = (Button) findViewById(R.id.GetIP);
         MinusRand = (Button) findViewById(R.id.MinusRand);
+
         ChkDebug=(CheckBox)findViewById(R.id.ChkDebug);
 
         lblName = (TextView) findViewById(R.id.lblName);
         txtDomain = (EditText) findViewById(R.id.txtDomain);
+
+
 
         // turn off debug buttons
         RandomName.setVisibility(View.GONE);
@@ -75,16 +80,26 @@ public class ISPiggyActivity extends AppCompatActivity {
                             GetIP.callOnClick();        // check IP
                         }
                     } else {
-                        //btnStart.callOnClick();
+
                     }
                 }
                 // end loop here
-                // check if STOP was pressed
-                    // yes pressed, then end
-                    // else Random Name and set i to 0 ????
-               //  btnStart.callOnClick();
-            }
-        });
+ 
+                new CountDownTimer(10000,1000) {
+                    public void onTick(long millisUntilFinished){
+                        counter++;
+                    }
+                    public void onFinish(){
+                        // we are done
+                        lblName.setText("Whoop we're done!");
+                        btnStart.callOnClick();
+                    }
+                }.start();
+               }
+            });
+
+
+
 
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
