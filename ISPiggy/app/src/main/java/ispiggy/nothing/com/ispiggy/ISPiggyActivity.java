@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.CheckBox;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -20,6 +22,7 @@ public class ISPiggyActivity extends AppCompatActivity {
     Button ToCom;
     Button GetIP;
     Button MinusRand;
+    CheckBox ChkDebug;
 
     TextView lblName;
     EditText txtDomain;
@@ -109,6 +112,29 @@ public class ISPiggyActivity extends AppCompatActivity {
             }
         });
 
+        ChkDebug=(CheckBox)findViewById(R.id.ChkDebug);
+        ChkDebug.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (ChkDebug.isChecked()) {
+                    // unhide the buttons and disable START button
+                    btnStart.setVisibility(View.GONE);
+                    btnStop.setVisibility(View.GONE);
+                    RandomName.setVisibility(View.VISIBLE);
+                    ToCom.setVisibility(View.VISIBLE);
+                    GetIP.setVisibility(View.VISIBLE);
+                    MinusRand.setVisibility(View.VISIBLE);
+                } else {
+                    // hide the lower buttons and enable the START/START buttons
+                    btnStart.setVisibility(View.VISIBLE);
+                    btnStop.setVisibility(View.VISIBLE);
+                    RandomName.setVisibility(View.GONE);
+                    ToCom.setVisibility(View.GONE);
+                    GetIP.setVisibility(View.GONE);
+                    MinusRand.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
 
