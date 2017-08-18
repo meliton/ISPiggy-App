@@ -20,8 +20,6 @@ public class ISPiggyActivity extends AppCompatActivity {
     Button ToCom;
     Button GetIP;
     Button MinusRand;
-    Button Rnd01;
-    Button MinusOne;
 
     TextView lblName;
     EditText txtDomain;
@@ -39,12 +37,9 @@ public class ISPiggyActivity extends AppCompatActivity {
         ToCom = (Button) findViewById(R.id.ToCom);
         GetIP = (Button) findViewById(R.id.GetIP);
         MinusRand = (Button) findViewById(R.id.MinusRand);
-        Rnd01 = (Button) findViewById(R.id.Rnd01);
-        MinusOne = (Button) findViewById(R.id.MinusOne);
 
         lblName = (TextView) findViewById(R.id.lblName);
         txtDomain = (EditText) findViewById(R.id.txtDomain);
-
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +95,6 @@ public class ISPiggyActivity extends AppCompatActivity {
                 {
                     // exception is unrecoverable here and the program will crash :(
                 }
-
             }
         });
 
@@ -114,25 +108,6 @@ public class ISPiggyActivity extends AppCompatActivity {
             }
         });
 
-        Rnd01.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView tv = (TextView) findViewById(R.id.lblName);
-                tv.setText("Rnd01 was pressed");
-                EditText rv = (EditText) findViewById(R.id.txtDomain);
-                rv.setText("Rnd01");
-            }
-        });
-
-        MinusOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String strDomain;
-                strDomain = String.valueOf(txtDomain.getText());
-                strDomain = String.valueOf(domainMinusOne(strDomain));
-                txtDomain.setText(strDomain);
-            }
-        });
     }
 
 
@@ -179,13 +154,13 @@ public class ISPiggyActivity extends AppCompatActivity {
 
     // Procedure : isOdd
     public static Object isOdd(int iNumber) {
-        Object tempisOdd;
+        Object tempIsOdd;
         if ((int) Math.floor(iNumber) % 2 > 0) {
-            tempisOdd = 0; // Odd Number, return 0
+            tempIsOdd = 0; // Odd Number, return 0
         } else {
-            tempisOdd = 1; // Even Number, return 1
+            tempIsOdd = 1; // Even Number, return 1
         }
-        return tempisOdd;
+        return tempIsOdd;
     }
 
     // Procedure : toDotCom
@@ -233,31 +208,7 @@ public class ISPiggyActivity extends AppCompatActivity {
         return strDomain;
     }
 
-    // Procedure : domainMinusOne
-    public static Object domainMinusOne(String strDomain) {
-        Object tempdomainMinusOne;
-        int iLength;
-        int iDotLoc;
-        int iDomOnly;
-        String sExtOnly;
-
-        iLength = strDomain == null ? 0 : strDomain.length(); // get overall domain length
-        iDotLoc = strDomain.indexOf(".") + 1; // get dot location in domain
-        iDomOnly = (iLength - (iLength - iDotLoc + 1)); // get size of domain
-
-        if (iDomOnly >= 3) // domain has at least two chars
-        {
-            // save extension into variable
-            sExtOnly = strDomain.substring(iDotLoc - 1, iDotLoc - 1 + iLength - iDotLoc + 1);
-            strDomain = strDomain.substring(0, iDomOnly); // save only domain into variable
-
-            // remove last char in domain name and reassemble domain name
-            tempdomainMinusOne = strDomain.substring(0, iDotLoc - 2) + sExtOnly;
-            strDomain = (String) tempdomainMinusOne; // puts new domain in passed domain variable
-        }
-        return strDomain;
-    }
-
+    // Class to handle async network thread : NetTask
     public class NetTask extends AsyncTask<String, Integer, String>
     {
         @Override
