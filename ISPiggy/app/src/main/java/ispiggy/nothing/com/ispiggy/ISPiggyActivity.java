@@ -1,7 +1,6 @@
 package ispiggy.nothing.com.ispiggy;
 
 import android.os.AsyncTask;
-import android.support.v4.media.VolumeProviderCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.net.SocketException;
-
 
 public class ISPiggyActivity extends AppCompatActivity {
 
@@ -78,7 +74,6 @@ public class ISPiggyActivity extends AppCompatActivity {
                 strWeb = makeDomainName();
                 lblName.setText(sLblName + strWeb);
                 txtDomain.setText(strWeb);
-
             }
         });
 
@@ -95,16 +90,17 @@ public class ISPiggyActivity extends AppCompatActivity {
         GetIP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String strDomain = String.valueOf(txtDomain.getText());
+                 String strDomain = String.valueOf(txtDomain.getText());
                 try
                 {
                     strDomain = new NetTask().execute(strDomain).get();
                     lblName.setText(strDomain);
-                }
+                 }
                 catch(Exception e1)
                 {
-                    e1.printStackTrace();
+                    // exception is unrecoverable here and the program will crash :(
                 }
+
             }
         });
 
@@ -115,7 +111,6 @@ public class ISPiggyActivity extends AppCompatActivity {
                 strDomain = String.valueOf(txtDomain.getText());
                 strDomain = String.valueOf(domainMinusRand(strDomain));
                 txtDomain.setText(strDomain);
-
             }
         });
 
@@ -136,12 +131,11 @@ public class ISPiggyActivity extends AppCompatActivity {
                 strDomain = String.valueOf(txtDomain.getText());
                 strDomain = String.valueOf(domainMinusOne(strDomain));
                 txtDomain.setText(strDomain);
-
             }
         });
     }
 
-    //////
+
 // Procedure : makeDomainName
     public static String makeDomainName() {
         String sRandWeb;
@@ -170,7 +164,6 @@ public class ISPiggyActivity extends AppCompatActivity {
                 //  odd number generates random consonant
                 sRandWeb = (sRandWeb + astrConsonants[(Integer) myRandom(0, (astrConsonants.length - 1))]);
             }
-
             x = (x + 1);
         }
 
@@ -277,11 +270,11 @@ public class ISPiggyActivity extends AppCompatActivity {
             }
             catch (UnknownHostException e)
             {
-                e.printStackTrace();
+                String myMsg = "IP not found";
+                return myMsg;
             }
             return addr.getHostAddress();
         }
     }
-
 
 }
