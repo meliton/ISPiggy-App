@@ -27,7 +27,8 @@ public class ISPiggyActivity extends AppCompatActivity {
     TextView lblName;
     EditText txtDomain;
 
-    public int counter;
+    public int counter;     // counter for timer
+    public int iStopper;    // global timed stopper
 
     String sLblName = "Random Domain: "; // random domain label set
 
@@ -42,29 +43,33 @@ public class ISPiggyActivity extends AppCompatActivity {
         ToCom = (Button) findViewById(R.id.ToCom);
         GetIP = (Button) findViewById(R.id.GetIP);
         MinusRand = (Button) findViewById(R.id.MinusRand);
-
         ChkDebug=(CheckBox)findViewById(R.id.ChkDebug);
-
         lblName = (TextView) findViewById(R.id.lblName);
         txtDomain = (EditText) findViewById(R.id.txtDomain);
 
-
-
-        // turn off debug buttons
+        // turn off debug buttons and set default data
         RandomName.setVisibility(View.GONE);
         ToCom.setVisibility(View.GONE);
         GetIP.setVisibility(View.GONE);
         MinusRand.setVisibility(View.GONE);
+        txtDomain.setVisibility(View.GONE);
+        btnStop.setEnabled(false);
+        lblName.setText("Press START to begin");
+        txtDomain.setText("google.com");
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnStop.setEnabled(true);   // enable the STOP button
+                btnStart.setEnabled(false); // disable the START button
+                ChkDebug.setEnabled(false); // disable the Debug checkbox
+                iStopper = 1;               // set global counter
+
                 // GetDomain
                 RandomName.callOnClick();  // get a new domain name
                 GetIP.callOnClick(); // getIP to see if it's valid
 
-                // loop start 5 times here
-          for (int i = 0; i < 5; i++){
+            for (int i = 0; i < 5; i++){   // loop start 5 times here
                     String tmpLabel;
                     tmpLabel = String.valueOf(lblName.getText());
 
@@ -80,34 +85,34 @@ public class ISPiggyActivity extends AppCompatActivity {
                             GetIP.callOnClick();        // check IP
                         }
                     } else {
-
+                            // do nothing, then loop again
                     }
                 }
                 // end loop here
- 
-                new CountDownTimer(10000,1000) {
+
+                new CountDownTimer(8000,1000) {
                     public void onTick(long millisUntilFinished){
                         counter++;
                     }
                     public void onFinish(){
-                        // we are done
-                        lblName.setText("Whoop we're done!");
-                        btnStart.callOnClick();
+                       if (iStopper == 1) {
+                            btnStart.callOnClick();
+                       } else {
+                           lblName.setText("Whoop we're done!");
+                        }
                     }
                 }.start();
-               }
-            });
-
-
-
+            }
+        });
 
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView tv = (TextView) findViewById(R.id.lblName);
-                tv.setText("STOP was pressed");
-                EditText rv = (EditText) findViewById(R.id.txtDomain);
-                rv.setText("STOP");
+            iStopper = 0;
+                lblName.setText("STOPPING ... PLEASE WAIT ...");
+                btnStop.setEnabled(false);
+                btnStart.setEnabled(true);
+                ChkDebug.setEnabled(true);
             }
         });
 
@@ -158,7 +163,6 @@ public class ISPiggyActivity extends AppCompatActivity {
             }
         });
 
-
         ChkDebug.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -170,6 +174,8 @@ public class ISPiggyActivity extends AppCompatActivity {
                     ToCom.setVisibility(View.VISIBLE);
                     GetIP.setVisibility(View.VISIBLE);
                     MinusRand.setVisibility(View.VISIBLE);
+                    txtDomain.setVisibility(View.VISIBLE);
+                    lblName.setText("Press RNDNAME... then GetIP...");
                 } else {
                     // hide the lower buttons and enable the START/START buttons
                     btnStart.setVisibility(View.VISIBLE);
@@ -178,11 +184,12 @@ public class ISPiggyActivity extends AppCompatActivity {
                     ToCom.setVisibility(View.GONE);
                     GetIP.setVisibility(View.GONE);
                     MinusRand.setVisibility(View.GONE);
+                    txtDomain.setVisibility(View.GONE);
+                    lblName.setText("Press START to begin");
                 }
             }
         });
     }
-
 
 // Procedure : makeDomainName
     public static String makeDomainName() {
@@ -300,5 +307,4 @@ public class ISPiggyActivity extends AppCompatActivity {
             return addr.getHostAddress();
         }
     }
-
 }
