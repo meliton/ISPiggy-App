@@ -46,7 +46,7 @@ public class ISPiggyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // GetDomain
                 RandomName.callOnClick();  // get a new domain name
-                // getIP to see if it's valid
+                GetIP.callOnClick(); // getIP to see if it's valid
                 // CheckDomain
 
             }
