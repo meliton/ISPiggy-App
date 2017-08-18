@@ -1,5 +1,7 @@
 package ispiggy.nothing.com.ispiggy;
 
+import android.os.AsyncTask;
+import android.support.v4.media.VolumeProviderCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,12 +10,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.net.SocketException;
 
 
 public class ISPiggyActivity extends AppCompatActivity {
 
-// Declare interactive elements
+    // Declare interactive elements
     Button btnStart;
     Button btnStop;
     Button RandomName;
@@ -49,13 +53,10 @@ public class ISPiggyActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 RandomName.callOnClick();  // get a new domain name
-                                            // getIP to see if it's valid
-
-                                            // if the domain is not valid, MinusRandom
-                                            // getIP to see if it's valid
-                                            // while not valid, MinusRandom
-                            // if it is valid, get new domain name
+                // GetDomain
+                RandomName.callOnClick();  // get a new domain name
+                // getIP to see if it's valid
+                // CheckDomain
 
             }
         });
@@ -88,17 +89,22 @@ public class ISPiggyActivity extends AppCompatActivity {
                 strDomain = String.valueOf(txtDomain.getText());
                 strDomain = String.valueOf(toDotCom(strDomain));
                 txtDomain.setText(strDomain);
-
             }
         });
 
         GetIP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView tv = (TextView) findViewById(R.id.lblName);
-                tv.setText("GetIP was pressed");
-                EditText rv = (EditText) findViewById(R.id.txtDomain);
-                rv.setText("GetIP");
+                String strDomain = String.valueOf(txtDomain.getText());
+                try
+                {
+                    strDomain = new NetTask().execute(strDomain).get();
+                    lblName.setText(strDomain);
+                }
+                catch(Exception e1)
+                {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -133,11 +139,11 @@ public class ISPiggyActivity extends AppCompatActivity {
 
             }
         });
-}
-//////
+    }
+
+    //////
 // Procedure : makeDomainName
-    public static String makeDomainName()
-    {
+    public static String makeDomainName() {
         String sRandWeb;
         int iDomain;
         int x;
@@ -146,9 +152,9 @@ public class ISPiggyActivity extends AppCompatActivity {
         String[] astrConsonants;
         String[] astrTLDsuffix;
 
-        astrVowels = new String[] {"a", "e", "i", "o", "u", "y"};
-        astrConsonants = new String[] {"c", "d", "f", "h", "l", "m", "n", "r", "s", "t"};
-        astrTLDsuffix = new String[] {".com", ".com", ".net", ".org"};
+        astrVowels = new String[]{"a", "e", "i", "o", "u", "y"};
+        astrConsonants = new String[]{"c", "d", "f", "h", "l", "m", "n", "r", "s", "t"};
+        astrTLDsuffix = new String[]{".com", ".com", ".net", ".org"};
 
         sRandWeb = "";
         x = 0;
@@ -159,11 +165,10 @@ public class ISPiggyActivity extends AppCompatActivity {
         while ((x < (Integer) myRandom(iMinDomain, iMaxDomain))) {
             if (((Integer) isOdd(x) == 1)) {
                 //  even number generates random vowel
-                sRandWeb = (sRandWeb + astrVowels[(Integer) myRandom(0, (astrVowels.length-1))]);
-            }
-            else {
+                sRandWeb = (sRandWeb + astrVowels[(Integer) myRandom(0, (astrVowels.length - 1))]);
+            } else {
                 //  odd number generates random consonant
-                sRandWeb = (sRandWeb + astrConsonants[(Integer) myRandom(0, (astrConsonants.length-1))]);
+                sRandWeb = (sRandWeb + astrConsonants[(Integer) myRandom(0, (astrConsonants.length - 1))]);
             }
 
             x = (x + 1);
@@ -175,29 +180,23 @@ public class ISPiggyActivity extends AppCompatActivity {
     }
 
     // Procedure : myRandom
-    public static Object myRandom(int iMinVal, int iMaxVal)
-    {
-        return (int)Math.floor((double) (((iMaxVal - iMinVal) + 1) * Math.random()) + iMinVal);
+    public static Object myRandom(int iMinVal, int iMaxVal) {
+        return (int) Math.floor((double) (((iMaxVal - iMinVal) + 1) * Math.random()) + iMinVal);
     }
 
     // Procedure : isOdd
-    public static Object isOdd(int iNumber)
-    {
+    public static Object isOdd(int iNumber) {
         Object tempisOdd;
-        if ((int)Math.floor(iNumber) % 2 > 0)
-        {
+        if ((int) Math.floor(iNumber) % 2 > 0) {
             tempisOdd = 0; // Odd Number, return 0
-        }
-        else
-        {
+        } else {
             tempisOdd = 1; // Even Number, return 1
         }
         return tempisOdd;
     }
 
     // Procedure : toDotCom
-    public static Object toDotCom(String strToCom)
-    {
+    public static Object toDotCom(String strToCom) {
         int iLength;
         int iDotLoc;
         int iDomOnly;
@@ -215,9 +214,7 @@ public class ISPiggyActivity extends AppCompatActivity {
     }
 
     // Procedure : domainMinusRand
-    public static Object domainMinusRand(String strDomain)
-    {
-        Object tempdomainMinusRand = null;  // remove null once this object is fixed below
+    public static Object domainMinusRand(String strDomain) {
         int iLength;
         int iDotLoc;
         int iDomOnly;
@@ -244,8 +241,7 @@ public class ISPiggyActivity extends AppCompatActivity {
     }
 
     // Procedure : domainMinusOne
-    public static Object domainMinusOne(String strDomain)
-    {
+    public static Object domainMinusOne(String strDomain) {
         Object tempdomainMinusOne;
         int iLength;
         int iDotLoc;
@@ -267,6 +263,24 @@ public class ISPiggyActivity extends AppCompatActivity {
             strDomain = (String) tempdomainMinusOne; // puts new domain in passed domain variable
         }
         return strDomain;
+    }
+
+    public class NetTask extends AsyncTask<String, Integer, String>
+    {
+        @Override
+        protected String doInBackground(String... params)
+        {
+            InetAddress addr = null;
+            try
+            {
+                addr = InetAddress.getByName(params[0]);
+            }
+            catch (UnknownHostException e)
+            {
+                e.printStackTrace();
+            }
+            return addr.getHostAddress();
+        }
     }
 
 
