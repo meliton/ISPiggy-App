@@ -40,9 +40,16 @@ public class ISPiggyActivity extends AppCompatActivity {
         ToCom = (Button) findViewById(R.id.ToCom);
         GetIP = (Button) findViewById(R.id.GetIP);
         MinusRand = (Button) findViewById(R.id.MinusRand);
+        ChkDebug=(CheckBox)findViewById(R.id.ChkDebug);
 
         lblName = (TextView) findViewById(R.id.lblName);
         txtDomain = (EditText) findViewById(R.id.txtDomain);
+
+        // turn off debug buttons
+        RandomName.setVisibility(View.GONE);
+        ToCom.setVisibility(View.GONE);
+        GetIP.setVisibility(View.GONE);
+        MinusRand.setVisibility(View.GONE);
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,8 +57,32 @@ public class ISPiggyActivity extends AppCompatActivity {
                 // GetDomain
                 RandomName.callOnClick();  // get a new domain name
                 GetIP.callOnClick(); // getIP to see if it's valid
-                // CheckDomain
 
+                // loop start 5 times here
+          for (int i = 0; i < 5; i++){
+                    String tmpLabel;
+                    tmpLabel = String.valueOf(lblName.getText());
+
+                    // check is valid domain is returned "not found!"
+                    if (tmpLabel.contains("not found")) {
+                        // check for dot com
+                        tmpLabel = String.valueOf(txtDomain.getText());
+                        if (tmpLabel.contains(".com")) {
+                            MinusRand.callOnClick();    // remove a random char
+                            GetIP.callOnClick();        // check IP
+                        } else {
+                            ToCom.callOnClick();        // change to dot com
+                            GetIP.callOnClick();        // check IP
+                        }
+                    } else {
+                        //btnStart.callOnClick();
+                    }
+                }
+                // end loop here
+                // check if STOP was pressed
+                    // yes pressed, then end
+                    // else Random Name and set i to 0 ????
+               //  btnStart.callOnClick();
             }
         });
 
@@ -112,7 +143,7 @@ public class ISPiggyActivity extends AppCompatActivity {
             }
         });
 
-        ChkDebug=(CheckBox)findViewById(R.id.ChkDebug);
+
         ChkDebug.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
