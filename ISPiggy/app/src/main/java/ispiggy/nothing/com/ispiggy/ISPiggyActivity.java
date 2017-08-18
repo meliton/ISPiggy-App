@@ -86,10 +86,11 @@ public class ISPiggyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                  String strDomain = String.valueOf(txtDomain.getText());
+                String keepStrDomain = String.valueOf(txtDomain.getText());
                 try
                 {
                     strDomain = new NetTask().execute(strDomain).get();
-                    lblName.setText(strDomain);
+                    lblName.setText(sLblName +  keepStrDomain + " is " + strDomain);
                  }
                 catch(Exception e1)
                 {
@@ -221,7 +222,7 @@ public class ISPiggyActivity extends AppCompatActivity {
             }
             catch (UnknownHostException e)
             {
-                String myMsg = "IP not found";
+                String myMsg = "not found!";
                 return myMsg;
             }
             return addr.getHostAddress();
