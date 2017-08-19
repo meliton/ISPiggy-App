@@ -98,7 +98,7 @@ public class ISPiggyActivity extends AppCompatActivity {
                        if (iStopper == 1) {
                             btnStart.callOnClick();
                        } else {
-                           lblName.setText("Whoop we're done!");
+                           lblName.setText("WHOOP we're done!");
                         }
                     }
                 }.start();
