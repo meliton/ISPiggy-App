@@ -13,7 +13,9 @@ The goal of this project is to disguise your web surfing habits from your ISP or
 * Random domain name generation
 * Start and Stop buttons
 * Debug feature - allows user interactive domain name creation and submission
+* Async thread for DNS requests (speeds up interface)
 
 
 ## TO DO
-* Resolve minor issues with slow response from some DNS servers
+* FIXED - Resolve minor issues with slow response from some DNS servers
+- Add icon to project
