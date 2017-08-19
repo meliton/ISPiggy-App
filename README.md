@@ -19,3 +19,6 @@ The goal of this project is to disguise your web surfing habits from your ISP or
 ## TO DO
 * FIXED - Resolve minor issues with slow response from some DNS servers
 - Add icon to project
+
+## ISPiggy-App Screenshot
+![Alt text](sample.jpg?raw=true "ISPiggy-App screenshot")
