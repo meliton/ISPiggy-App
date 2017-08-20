@@ -17,20 +17,18 @@ import java.net.UnknownHostException;
 public class ISPiggyActivity extends AppCompatActivity {
 
     // Declare interactive elements
-    Button btnStart;
-    Button btnStop;
-    Button RandomName;
-    Button ToCom;
-    Button GetIP;
-    Button MinusRand;
-    CheckBox ChkDebug;
-    TextView lblName;
-    EditText txtDomain;
+    private Button btnStart;
+    private Button btnStop;
+    private Button RandomName;
+    private Button ToCom;
+    private Button GetIP;
+    private Button MinusRand;
+    private  CheckBox ChkDebug;
+    private TextView lblName;
+    private EditText txtDomain;
 
-    public int counter;     // counter for timer
-    public int iStopper;    // global timed stopper
-
-    String sLblName = "Random Domain: "; // random domain label set
+    private int iStopper;    // global timed stopper
+    private final String sLblName = "Random Domain: "; // random domain label set
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +82,12 @@ public class ISPiggyActivity extends AppCompatActivity {
                             ToCom.callOnClick();        // change to dot com
                             GetIP.callOnClick();        // check IP
                         }
-                    } else {
-                            // do nothing, then loop again
                     }
                 }
                 // end loop here
 
                 new CountDownTimer(8000,1000) {
                     public void onTick(long millisUntilFinished){
-                        counter++;
                     }
                     public void onFinish(){
                        if (iStopper == 1) {
@@ -167,7 +162,7 @@ public class ISPiggyActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (ChkDebug.isChecked()) {
-                    // unhide the buttons and disable START button
+                    // show the buttons and disable START button
                     btnStart.setVisibility(View.GONE);
                     btnStop.setVisibility(View.GONE);
                     RandomName.setVisibility(View.VISIBLE);
@@ -192,18 +187,18 @@ public class ISPiggyActivity extends AppCompatActivity {
     }
 
 // Procedure : makeDomainName
-    public static String makeDomainName() {
+    private static String makeDomainName() {
         String sRandWeb;
         int iDomain;
         int x;
 
-        String[] astrVowels;
-        String[] astrConsonants;
-        String[] astrTLDsuffix;
+        String[] Vowels;
+        String[] Consonants;
+        String[] Suffix;
 
-        astrVowels = new String[]{"a", "e", "i", "o", "u", "y"};
-        astrConsonants = new String[]{"c", "d", "f", "h", "l", "m", "n", "r", "s", "t"};
-        astrTLDsuffix = new String[]{".com", ".com", ".net", ".org"};
+        Vowels = new String[]{"a", "e", "i", "o", "u", "y"};
+        Consonants = new String[]{"c", "d", "f", "h", "l", "m", "n", "r", "s", "t"};
+        Suffix = new String[]{".com", ".com", ".net", ".org"};
 
         sRandWeb = "";
         x = 0;
@@ -214,26 +209,26 @@ public class ISPiggyActivity extends AppCompatActivity {
         while ((x < (Integer) myRandom(iMinDomain, iMaxDomain))) {
             if (((Integer) isOdd(x) == 1)) {
                 //  even number generates random vowel
-                sRandWeb = (sRandWeb + astrVowels[(Integer) myRandom(0, (astrVowels.length - 1))]);
+                sRandWeb = (sRandWeb + Vowels[(Integer) myRandom(0, (Vowels.length - 1))]);
             } else {
                 //  odd number generates random consonant
-                sRandWeb = (sRandWeb + astrConsonants[(Integer) myRandom(0, (astrConsonants.length - 1))]);
+                sRandWeb = (sRandWeb + Consonants[(Integer) myRandom(0, (Consonants.length - 1))]);
             }
             x = (x + 1);
         }
 
-        iDomain = (Integer) myRandom(0, (astrTLDsuffix.length - 1));
+        iDomain = (Integer) myRandom(0, (Suffix.length - 1));
         //  get random domain suffix
-        return (sRandWeb + astrTLDsuffix[iDomain]);
+        return (sRandWeb + Suffix[iDomain]);
     }
 
     // Procedure : myRandom
-    public static Object myRandom(int iMinVal, int iMaxVal) {
-        return (int) Math.floor((double) (((iMaxVal - iMinVal) + 1) * Math.random()) + iMinVal);
+    private static Object myRandom(int iMinVal, int iMaxVal) {
+        return (int) Math.floor(((iMaxVal - iMinVal) + 1) * Math.random() + iMinVal);
     }
 
     // Procedure : isOdd
-    public static Object isOdd(int iNumber) {
+    private static Object isOdd(int iNumber) {
         Object tempIsOdd;
         if ((int) Math.floor(iNumber) % 2 > 0) {
             tempIsOdd = 0; // Odd Number, return 0
@@ -244,7 +239,7 @@ public class ISPiggyActivity extends AppCompatActivity {
     }
 
     // Procedure : toDotCom
-    public static Object toDotCom(String strToCom) {
+    private static Object toDotCom(String strToCom) {
         int iLength;
         int iDotLoc;
         int iDomOnly;
@@ -262,7 +257,7 @@ public class ISPiggyActivity extends AppCompatActivity {
     }
 
     // Procedure : domainMinusRand
-    public static Object domainMinusRand(String strDomain) {
+    private static Object domainMinusRand(String strDomain) {
         int iLength;
         int iDotLoc;
         int iDomOnly;
@@ -289,22 +284,21 @@ public class ISPiggyActivity extends AppCompatActivity {
     }
 
     // Class to handle async network thread : NetTask
-    public class NetTask extends AsyncTask<String, Integer, String>
+    private class NetTask extends AsyncTask<String, Integer, String>
     {
         @Override
         protected String doInBackground(String... params)
         {
-            InetAddress addr = null;
+            InetAddress adAddress;
             try
             {
-                addr = InetAddress.getByName(params[0]);
+                adAddress = InetAddress.getByName(params[0]);
             }
             catch (UnknownHostException e)
             {
-                String myMsg = "not found!";
-                return myMsg;
+                 return "not found!";
             }
-            return addr.getHostAddress();
+            return adAddress.getHostAddress();
         }
     }
 }
